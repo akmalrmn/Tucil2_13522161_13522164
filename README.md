@@ -69,7 +69,7 @@ susugratis
 ## 🏃‍♂️ How to Run
 1. change the terminal directory to the root directory of `kurva-bezier`
   ```sh
-  cd src/kurva-bezier`
+  cd src/kurva-bezier
   ```
 2. set up environment 
   ```
