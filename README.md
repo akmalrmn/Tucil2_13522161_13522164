@@ -67,11 +67,22 @@ susugratis
 1. Clone this repository to your local files and make sure you have installed the dependencies to your device. Access the repository [here](repository-link).
 
 ## 🏃‍♂️ How to Run
-1. change the terminal directory to the root directory of game engine file by execute `cd tubes1-IF2110-game-engine-1.1.0` in terminal.
-2. run the game engine by executing `npm run start` and make sure the game engine is running on (http://localhost:8082/).
-3. change the terminal directory to the bot engine file by execute `cd susugratis\src`.
-4. to run the bot you can execute the logic by using `python main.py --logic logic --email=komeng@email.com --name=komeng --password=123456 --team etimo`.
-5. For windows you can also run the bot by executing `./run-bots.bat` and also for linux you can run the bot by executing `./run-bots.sh`.
+1. change the terminal directory to the root directory of `kurva-bezier`
+  ```sh
+  cd src/kurva-bezier`
+  ```
+2. set up environment 
+  ```
+  npm run setup
+  ```
+3. activate virtual environment
+  ```
+  app/api/venv/Scripts/activate
+  ```
+4. run app
+  ```
+  npm run run-app
+  ```
 
 ## 🪪 Contributors
 | NIM | Name | Linkedin |
