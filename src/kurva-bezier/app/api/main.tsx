@@ -8,35 +8,64 @@ export interface Props {
   n: number;
 }
 
-export const drawBezierCurve = ({ points, n }: Props): Point[] => {
-  let temPoints = [...points];
-  const resPoints: Point[] = [];
-
-  for (let i = 0; i < n; i++) {
-    let newPoints: Point[] = [];
-    for (let j = 0; j < temPoints.length - 1; j++) {
-      const mid = midPoint(
-        temPoints[j].x,
-        temPoints[j].y,
-        temPoints[j + 1].x,
-        temPoints[j + 1].y
-      );
-      newPoints.push(temPoints[j], mid);
-    }
-    newPoints.push(temPoints[temPoints.length - 1]);
-    temPoints = newPoints;
-  }
-
-  resPoints.unshift(temPoints[0]);
-  resPoints.push(temPoints[temPoints.length - 1]);
-
-  return resPoints;
-}
-
 function midPoint(x0: number, y0: number, x1: number, y1: number): Point {
   const x = (x0 + x1) / 2;
   const y = (y0 + y1) / 2;
   return { x, y };
+}
+
+function binomialCoefficient(n: number, k: number): number {
+  if (k === 0 || k === n) return 1;
+  let result = 1;
+  for (let i = 1; i <= k; i++) {
+    result *= (n - i + 1) / i;
+  }
+  return result;
+}
+
+export const drawBezierCurve = ({ points, n }: Props): Point[] => {
+  const resPoints: Point[] = [];
+  let num = points.length;
+
+  for (let i = 0; i < n; i++) {
+    let temPoints = [];
+    for (let j = 0; j < num - 1; j++) {
+      const mid = midPoint(
+        points[j].x,
+        points[j].y,
+        points[j + 1].x,
+        points[j + 1].y
+      );
+      temPoints.push(mid);
+      console.log("temPoints:", temPoints);
+    }
+    
+    let num1 = temPoints.length;
+    for (let k = 0; k < num1 - 1; k++) {
+      const mid = midPoint(
+        temPoints[k].x,
+        temPoints[k].y,
+        temPoints[k + 1].x,
+        temPoints[k + 1].y
+      );
+      if (i == n - 1) {
+        resPoints.push(mid);
+      } else {
+        temPoints.splice(k + 1, 0, mid);
+      }
+    }
+
+    temPoints.unshift(points[0]);
+    temPoints.push(points[points.length - 1]);
+    console.log("temPoints2:", temPoints);
+    num = temPoints.length;
+    points = temPoints;
+  }
+
+  resPoints.unshift(points[0]);
+  resPoints.push(points[points.length - 1]);
+
+  return resPoints;
 }
 
 export const drawBezierCurveBruteForce = ({ points, n }: Props): Point[] => {
@@ -59,26 +88,3 @@ export const drawBezierCurveBruteForce = ({ points, n }: Props): Point[] => {
 
   return resPoints;
 }
-
-function binomialCoefficient(n: number, k: number): number {
-  if (k === 0 || k === n) return 1;
-  let result = 1;
-  for (let i = 1; i <= k; i++) {
-    result *= (n - i + 1) / i;
-  }
-  return result;
-}
-
-const points: Point[] = [
-  { x: 5, y: 35 },
-  { x: 20, y: 45 },
-  { x: 35, y: 35 },
-  { x: 45, y: 25 },
-];
-
-const n = 4;
-
-const divideAndConquerPoints = drawBezierCurve({ points, n });
-console.log("Divide and Conquer Points:", divideAndConquerPoints);
-const bruteForcePoints = drawBezierCurveBruteForce({ points, n });
-console.log("Brute Force Points:", bruteForcePoints);
