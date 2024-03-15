@@ -1,25 +1,32 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react'
-import { Slider } from './ui/slider';
+// import { Slider } from './ui/slider';
 import { Canvas, CanvasProps } from './Canvas'
 import { 
     Card,
     CardHeader,
     CardTitle,
     CardDescription,
-    CardContent,
+    CardContent 
 } from './ui/card'
 import {
     Tabs,
     TabsContent,
     TabsList,
     TabsTrigger,
-  } from "@/components/ui/tabs"
+    } from "@/components/ui/tabs"
+// import { 
+//     Tooltip,
+//     TooltipContent,
+//     TooltipProvider,
+//     TooltipTrigger 
+//     } from './ui/tooltip';
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import MyResponsiveLine from './LineChart';
 import { LineSvgProps } from '@nivo/line';
+import { Slider } from '@nextui-org/react';
 
 interface Props {}
 
@@ -31,6 +38,8 @@ export const MainCard = ({}) => {
     const [y0, sety0] = useState(0.0);
     const [y1, sety1] = useState(0.0);
     const [y2, sety2] = useState(0.0);
+    const [iteration, setIteration] = useState(0);
+    const [nowIterate, setNowIterate] = useState<number | number[]>(0);
     const [props, setProps] = useState<LineSvgProps>(
         {
             data: [
@@ -50,20 +59,31 @@ export const MainCard = ({}) => {
         const datas : LineSvgProps = {
             data: [
                 {
-                    id: '1',
-                    color: 'hsl(0, 70%, 50%)',
+                    id: 'point',
                     data: [
                         {x: x0, y: y0},
                         {x: x1, y: y1},
                         {x: x2, y: y2},
                     ]
-                }
+                },
+                {
+                    id: 'bezier',
+                    data: [
+                        {x: x0  +2, y: y0+2},
+                        {x: x1+2, y: y1+2},
+                        {x: x2+2, y: y2+2},
+                    ]
+                },
+
             ]
         }
         console.log('Button clicked');
-        // Refresh the chart
-        // the char is in myresponsiveline component
         setProps(datas);
+    }
+
+    const changeIteration = (iter : number) => {
+        setIteration(iter);
+        setNowIterate(0);
     }
 
     return (
@@ -76,10 +96,42 @@ export const MainCard = ({}) => {
             <CardContent className='flex items-center justify-center w-[95%] h-[85%]'>
                 <div className='h-full aspect-square'>
                     <div className='h-[95%] aspect-square rounded-md bg-[#1d1d1d] flex items-center justify-center'>
-                        {/* <canvas ref={canvasRef} width={w} height={h} className='max-h-full bg-[#ffffff]'/> */}
                         <MyResponsiveLine {...props} />
                     </div>
-                    <Slider className='mt-3 w-[95%]'/>
+                    {/* <TooltipProvider
+                        className="w-full"
+                        delayDuration={0}>
+                        <Tooltip className="w-full">
+                            <TooltipTrigger className="w-full">
+                                <Slider
+                                    className='mt-3 w-[95%]' 
+                                    min={0} 
+                                    max={iteration} 
+                                    defaultValue={[0]} 
+                                    onValueChange={(value) => setNowIterate(value[0])}
+                                />
+                            </TooltipTrigger>
+                            <TooltipContent
+                                side="bottom"    
+                            >
+                                <p>{nowIterate}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider> */}
+                    <Slider
+                        isDisabled={!iteration}
+                        className='w-[95%] mt-1' 
+                        minValue={0} 
+                        maxValue={iteration}
+                        step={1}
+                        showTooltip={true}
+                        showSteps={true}
+                        label="Iterasi ke-"
+                        defaultValue={0}
+                        size='md'
+                        hideValue
+                        onChange={(value) => setNowIterate(value)}
+                    />
                 </div>
                 <Tabs defaultValue="3-point" className="h-full">
                     <TabsList className="grid w-full grid-cols-2">
@@ -134,11 +186,11 @@ export const MainCard = ({}) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className='w-full'>
+                                        <div className='w-full font-bold text-lg'>
                                             <div className='flex flex-row items-center justify-center w-full gap-5'>
                                                 <div className='w-full flex flex-row items-center justify-between text-bold'>
                                                     <h1 className='ml-2 font-semibold text-md'> Iterasi : </h1>
-                                                    <Input type='number' placeholder='0' className='w-[85%]'/>
+                                                    <Input onChange={(e) => {e.currentTarget.value ? changeIteration(parseInt(e.currentTarget.value)) : changeIteration(0)}} defaultValue={0} type='number' placeholder='0' className='w-[85%]'/>
                                                 </div>
                                             </div>
                                         </div>

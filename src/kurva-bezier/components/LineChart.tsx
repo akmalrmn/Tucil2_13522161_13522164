@@ -1,14 +1,6 @@
 import { ResponsiveLine } from '@nivo/line'
 import { LineSvgProps } from '@nivo/line';
 
-export interface lineData {
-    id:   string | number;
-    color: string;
-    data: {
-        x: number | string | Date
-        y: number | string | Date
-    }[];
-}   
 
 const MyResponsiveLine = ( props : LineSvgProps) => {
     return (
@@ -60,6 +52,35 @@ const MyResponsiveLine = ( props : LineSvgProps) => {
             pointLabelYOffset={-12}
             enableTouchCrosshair={true}
             useMesh={true}
+            colors={{ scheme: 'accent' }}
+            legends={
+                [
+                    {
+                        anchor: 'bottom',
+                        direction: 'row',
+                        justify: false,
+                        translateX: 250,
+                        translateY: 50,
+                        itemsSpacing: 0,
+                        itemDirection: 'left-to-right',
+                        itemWidth: 80,
+                        itemHeight: 20,
+                        itemOpacity: 0.75,
+                        symbolSize: 12,
+                        symbolShape: 'circle',
+                        symbolBorderColor: 'rgba(0, 0, 0, .5)',
+                        effects: [
+                            {
+                                on: 'hover',
+                                style: {
+                                    itemBackground: 'rgba(0, 0, 0, .03)',
+                                    itemOpacity: 1
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
             theme={{
                 text: {
                     fill: '#ffffff'
