@@ -25,7 +25,7 @@ function bruteForceDrawBezierCurve(x0, y0, x1, y1, x2, y2, n) {
 }
 
 // Divide and conquer implementation
-function drawBezierCurve(x0, y0, x1, y1, x2, y2, n) {
+export function drawBezierCurve(x0, y0, x1, y1, x2, y2, n) {
   const points = [];
   points.push({ x: x0, y: y0 });
 
@@ -71,3 +71,4 @@ console.log('Divide and Conquer Points:', divideAndConquerPoints);
 // Brute force
 const bruteForcePoints = bruteForceDrawBezierCurve(x0, y0, x1, y1, x2, y2, n);
 console.log('Brute Force Points:', bruteForcePoints);
+
