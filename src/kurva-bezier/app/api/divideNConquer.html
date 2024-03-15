@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bejir Curve Visualization</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="bezierCanvas" width="500" height="300"></canvas>
+    <script>
+      function calculateBezierPoint(t, p0, p1, p2) {
+        let x =
+          Math.pow(1 - t, 2) * p0.x +
+          2 * (1 - t) * t * p1.x +
+          Math.pow(t, 2) * p2.x;
+        let y =
+          Math.pow(1 - t, 2) * p0.y +
+          2 * (1 - t) * t * p1.y +
+          Math.pow(t, 2) * p2.y;
+        return { x: x, y: y };
+      }
+      // ini canvas
+      const canvas = document.getElementById("bezierCanvas");
+      const ctx = canvas.getContext("2d");
+
+      // Contoh penggunaan
+      let p0 = { x: 100, y: 100 };
+      let p1 = { x: 200, y: 50 };
+      let p2 = { x: 300, y: 150 };
+
+      let iterations = 5; // ganti2 jumlah iterasi di sini
+
+      // gambar bejirnya di sini
+      ctx.beginPath();
+      ctx.moveTo(p0.x, p0.y);
+      ctx.fillText(`(${p0.x}, ${p0.y})`, p0.x, p0.y);
+      for (let i = 1; i <= iterations; i++) {
+        let t = i / iterations;
+        let point = calculateBezierPoint(t, p0, p1, p2);
+        ctx.lineTo(point.x, point.y);
+        ctx.fillText(
+          `(${point.x.toFixed(2)}, ${point.y.toFixed(2)})`,
+          point.x,
+          point.y
+        );
+        ctx.fillRect(point.x - 1, point.y - 1, 2, 2);
+      }
+      ctx.stroke();
+      ctx.fillText(`(${p2.x}, ${p2.y})`, p2.x, p2.y);
+    </script>
+  </body>
+</html>
