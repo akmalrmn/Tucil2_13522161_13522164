@@ -18,66 +18,53 @@ import {
   } from "@/components/ui/tabs"
 import { Input } from './ui/input'
 import { Button } from './ui/button'
+import MyResponsiveLine from './LineChart';
+import { LineSvgProps } from '@nivo/line';
 
 interface Props {}
 
 export const MainCard = ({}) => {
     
-    const scale = 50;
-    let w = 500;
-    let h = 500;
-    const [x0, setx0] = useState(0);
-    const [x1, setx1] = useState(0);
-    const [x2, setx2] = useState(0);
-    const [y0, sety0] = useState(0);
-    const [y1, sety1] = useState(0);
-    const [y2, sety2] = useState(0);
-    const [start, setStart] = useState(false);
+    const [x0, setx0] = useState(0.0);
+    const [x1, setx1] = useState(0.0);
+    const [x2, setx2] = useState(0.0);
+    const [y0, sety0] = useState(0.0);
+    const [y1, sety1] = useState(0.0);
+    const [y2, sety2] = useState(0.0);
+    const [props, setProps] = useState<LineSvgProps>(
+        {
+            data: [
+                {
+                    id: '1',
+                    color: 'hsl(0, 70%, 50%)',
+                    data: [
+                    ]
+                }
+            ]
+        }
+    );
+
+
     
     const firstClickHandler = () => {
-        console.log('Button clicked');
-        setStart(true);
-    }
-
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    useEffect(() => {
-        if (start){
-            const point1 = {x: x0, y: y0};
-            const point2 = {x: x1, y: y1};
-            const point3 = {x: x2, y: y2};
-            
-            const canvas = canvasRef.current;
-            if (!canvas) return;
-            const context = canvas?.getContext('2d');
-            if (!context) return;
-            
-            context.clearRect(0, 0, canvas.width, canvas.height);
-
-            
-            console.log(point1, point2, point3);
-
-            const points = [
-                { x: point1.x*scale, y: canvas.height-point1.y*scale},
-                { x: point2.x*scale, y: canvas.height-point2.y*scale},
-                { x: point3.x*scale, y: canvas.height-point3.y*scale},
-            ];
-
-            console.log(points);
-
-            context.beginPath();
-            context.moveTo(points[0].x, points[0].y);
-
-            for (let i = 1; i < points.length ; i++) {
-                const cp = points[i];
-
-                context.lineTo(cp.x, cp.y);
-            }
-            
-            context.strokeStyle = 'red';
-            context.stroke();
-            setStart(false);
+        const datas : LineSvgProps = {
+            data: [
+                {
+                    id: '1',
+                    color: 'hsl(0, 70%, 50%)',
+                    data: [
+                        {x: x0, y: y0},
+                        {x: x1, y: y1},
+                        {x: x2, y: y2},
+                    ]
+                }
+            ]
         }
-    }, [start])
+        console.log('Button clicked');
+        // Refresh the chart
+        // the char is in myresponsiveline component
+        setProps(datas);
+    }
 
     return (
         <Card className='w-full h-full flex flex-col items-center justify-start bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-500 overflow-hidden'>
@@ -89,7 +76,8 @@ export const MainCard = ({}) => {
             <CardContent className='flex items-center justify-center w-[95%] h-[85%]'>
                 <div className='h-full aspect-square'>
                     <div className='h-[95%] aspect-square rounded-md bg-[#1d1d1d] flex items-center justify-center'>
-                        <canvas ref={canvasRef} width={w} height={h} className='max-h-full bg-[#ffffff]'/>
+                        {/* <canvas ref={canvasRef} width={w} height={h} className='max-h-full bg-[#ffffff]'/> */}
+                        <MyResponsiveLine {...props} />
                     </div>
                     <Slider className='mt-3 w-[95%]'/>
                 </div>
@@ -112,11 +100,11 @@ export const MainCard = ({}) => {
                                             <div className='flex flex-row items-center justify-center w-full gap-5'>
                                                 <div className='w-full flex flex-row items-center justify-between text-bold'>
                                                     <h1 className='ml-2 font-semibold text-md'> X : </h1>
-                                                    <Input onChange={(e) => {e.currentTarget.value ? setx0(parseInt(e.currentTarget.value)) : setx0(0)}} defaultValue={0} type='number' placeholder='0' className='w-[85%]'/>
+                                                    <Input onChange={(e) => {e.currentTarget.value ? setx0(parseFloat(e.currentTarget.value)) : setx0(0)}} defaultValue={0} type='number' placeholder='0' className='w-[85%]'/>
                                                 </div>
                                                 <div className='w-full flex flex-row items-center justify-between text-bold'>
                                                     <h1 className='ml-2 font-semibold text-md'> Y : </h1>
-                                                    <Input onChange={(e) => {e.currentTarget.value ? sety0(parseInt(e.currentTarget.value)) : sety0(0)}} defaultValue={0} type='number' placeholder='0' className='w-[85%]'/>
+                                                    <Input onChange={(e) => {e.currentTarget.value ? sety0(parseFloat(e.currentTarget.value)) : sety0(0)}} defaultValue={0} type='number' placeholder='0' className='w-[85%]'/>
                                                 </div>
                                             </div>
                                         </div>
@@ -125,11 +113,11 @@ export const MainCard = ({}) => {
                                             <div className='flex flex-row items-center justify-center w-full gap-5'>
                                                 <div className='w-full flex flex-row items-center justify-between text-bold'>
                                                     <h1 className='ml-2 font-semibold text-md'> X : </h1>
-                                                    <Input onChange={(e) => {e.currentTarget.value ? setx1(parseInt(e.currentTarget.value)) : setx1(0)}} defaultValue={0} type='number' placeholder='0' className='w-[85%]'/>
+                                                    <Input onChange={(e) => {e.currentTarget.value ? setx1(parseFloat(e.currentTarget.value)) : setx1(0)}} defaultValue={0} type='number' placeholder='0' className='w-[85%]'/>
                                                 </div>
                                                 <div className='w-full flex flex-row items-center justify-between text-bold'>
                                                     <h1 className='ml-2 font-semibold text-md'> Y : </h1>
-                                                    <Input onChange={(e) => {e.currentTarget.value ? sety1(parseInt(e.currentTarget.value)) : sety1(0)}} defaultValue={0} type='number' placeholder='0' className='w-[85%]'/>
+                                                    <Input onChange={(e) => {e.currentTarget.value ? sety1(parseFloat(e.currentTarget.value)) : sety1(0)}} defaultValue={0} type='number' placeholder='0' className='w-[85%]'/>
                                                 </div>
                                             </div>
                                         </div>
@@ -138,11 +126,11 @@ export const MainCard = ({}) => {
                                             <div className='flex flex-row items-center justify-center w-full gap-5'>
                                                 <div className='w-full flex flex-row items-center justify-between text-bold'>
                                                     <h1 className='ml-2 font-semibold text-md'> X : </h1>
-                                                    <Input onChange={(e) => {e.currentTarget.value ? setx2(parseInt(e.currentTarget.value)) : setx2(0)}} defaultValue={0} type='number' placeholder='0' className='w-[85%]'/>
+                                                    <Input onChange={(e) => {e.currentTarget.value ? setx2(parseFloat(e.currentTarget.value)) : setx2(0)}} defaultValue={0} type='number' placeholder='0' className='w-[85%]'/>
                                                 </div>
                                                 <div className='w-full flex flex-row items-center justify-between text-bold'>
                                                     <h1 className='ml-2 font-semibold text-md'> Y : </h1>
-                                                    <Input onChange={(e) => {e.currentTarget.value ? sety2(parseInt(e.currentTarget.value)) : sety2(0)}} defaultValue={0} type='number' placeholder='0' className='w-[85%]'/>
+                                                    <Input onChange={(e) => {e.currentTarget.value ? sety2(parseFloat(e.currentTarget.value)) : sety2(0)}} defaultValue={0} type='number' placeholder='0' className='w-[85%]'/>
                                                 </div>
                                             </div>
                                         </div>
