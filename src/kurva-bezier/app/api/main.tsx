@@ -14,15 +14,6 @@ function midPoint(x0: number, y0: number, x1: number, y1: number): Point {
   return { x, y };
 }
 
-function binomialCoefficient(n: number, k: number): number {
-  if (k === 0 || k === n) return 1;
-  let result = 1;
-  for (let i = 1; i <= k; i++) {
-    result *= (n - i + 1) / i;
-  }
-  return result;
-}
-
 export const drawBezierCurve = ({ points, iterate }: nBezierProps): Point[] => {
   const resPoints: Point[] = [];
   let num = points.length;
@@ -37,9 +28,12 @@ export const drawBezierCurve = ({ points, iterate }: nBezierProps): Point[] => {
         points[j + 1].y
       );
       temPoints.push(mid);
+      console.log("temPoints:", temPoints);
     }
-    
+
     let num1 = temPoints.length;
+    let temPoints1 = [...temPoints];
+    let l = 1;
     for (let k = 0; k < num1 - 1; k++) {
       const mid = midPoint(
         temPoints[k].x,
@@ -50,16 +44,21 @@ export const drawBezierCurve = ({ points, iterate }: nBezierProps): Point[] => {
       if (i == iterate - 1) {
         resPoints.push(mid);
       } else {
-        temPoints.splice(k + 1, 0, mid);
+        if (k + 1 != 1){
+          l += 2;
+        }
+        temPoints1.splice(l, 0, mid);
       }
     }
 
-    temPoints.unshift(points[0]);
-    temPoints.push(points[points.length - 1]);
-    num = temPoints.length;
-    points = temPoints;
+    temPoints1.unshift(points[0]);
+    temPoints1.push(points[points.length - 1]);
+    console.log("temPoints2:", temPoints1);
+    num = temPoints1.length;
+    points = temPoints1;
   }
 
+  // Prepend the first point and append the last point
   resPoints.unshift(points[0]);
   resPoints.push(points[points.length - 1]);
 
@@ -76,7 +75,8 @@ export const drawBezierCurveBruteForce = ({ points, iterate }: nBezierProps): Po
     let y = 0;
 
     for (let j = 0; j <= iterate; j++) {
-      const blend = binomialCoefficient(iterate, j) * Math.pow(1 - t, iterate - j) * Math.pow(t, j);
+      const blend =
+        binomialCoefficient(iterate, j) * Math.pow(1 - t, iterate - j) * Math.pow(t, j);
       x += blend * points[j].x;
       y += blend * points[j].y;
     }
@@ -86,3 +86,13 @@ export const drawBezierCurveBruteForce = ({ points, iterate }: nBezierProps): Po
 
   return resPoints;
 }
+
+function binomialCoefficient(n: number, k: number): number {
+  if (k === 0 || k === n) return 1;
+  let result = 1;
+  for (let i = 1; i <= k; i++) {
+    result *= (n - i + 1) / i;
+  }
+  return result;
+}
+
