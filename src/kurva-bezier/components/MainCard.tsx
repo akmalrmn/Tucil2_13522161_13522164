@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Slider } from './ui/slider';
 import { 
     Card,
@@ -18,7 +18,6 @@ import {
 import { 
     Tooltip,
     TooltipContent,
-    TooltipProvider,
     TooltipTrigger 
 } from './ui/tooltip';
 import { Input } from './ui/input'
@@ -29,12 +28,10 @@ import { ScrollArea } from './ui/scroll-area';
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormLabel,
     FormMessage,
     FormItem,
-    useFormField
 } from "@/components/ui/form"
 import { useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
@@ -54,9 +51,8 @@ const formSchema = z.object({
 type formValues = z.infer<typeof formSchema>
 
 
-interface Props {}
 
-export const MainCard = ({}) => {
+export const MainCard = () => {
 
   // State Declaration
     const { toast } = useToast();
@@ -99,7 +95,7 @@ export const MainCard = ({}) => {
 
 
     // Function Declaration
-    const firstClickHandler = () => {
+    const firstClickHandler = useCallback(() => {
         const newBezierProps : nBezierProps = {
             points: points,
             iterate : nowIterate
@@ -119,7 +115,7 @@ export const MainCard = ({}) => {
             ]
         }
         setProps(datas);
-    }
+    }, [method, points, nowIterate])
 
     const changeIteration = (iter : number) => {
         setIteration(iter);
@@ -128,7 +124,7 @@ export const MainCard = ({}) => {
 
     useEffect(() => {
         firstClickHandler();
-    }, [nowIterate])
+    }, [firstClickHandler])
     
     const onSubmit = (values: formValues) => {
       if (values.iteration < 0) {
@@ -227,8 +223,6 @@ export const MainCard = ({}) => {
                             className="flex-1 w-full space-y-5"
                           >
                             <div className="relative flex flex-col items-center justify-center">
-                              <Tooltip>
-                                <TooltipTrigger className="w-full">
                                   <ScrollArea
                                     scrollHideDelay={0}
                                     className='w-full h-[250px]'
@@ -301,14 +295,6 @@ export const MainCard = ({}) => {
                                       <FormMessage className="  ">{form.formState.errors.points?.message}</FormMessage>
                                     </div>
                                   </ScrollArea>
-                                </TooltipTrigger>
-                                <TooltipContent
-                                    side="top"
-                                    className='select-none'    
-                                >
-                                    <p>Scroll to fill more!</p>
-                                </TooltipContent>
-                              </Tooltip>
                               <div className="relative iteration my-5 w-full">
                                 <FormField
                                   name="iteration"
@@ -367,8 +353,6 @@ export const MainCard = ({}) => {
                             className="flex-1 w-full space-y-5"
                           >
                             <div className="relative flex flex-col items-center justify-center">
-                              <Tooltip>
-                                <TooltipTrigger className="w-full">
                                   <ScrollArea
                                     scrollHideDelay={0}
                                     className='w-full h-[250px]'
@@ -441,14 +425,6 @@ export const MainCard = ({}) => {
                                       <FormMessage className="  ">{form.formState.errors.points?.message}</FormMessage>
                                     </div>
                                   </ScrollArea>
-                                </TooltipTrigger>
-                                <TooltipContent
-                                    side="top"
-                                    className='select-none'    
-                                >
-                                    <p>Scroll to fill more!</p>
-                                </TooltipContent>
-                              </Tooltip>
                               <div className="relative iteration my-5 w-full">
                                 <FormField
                                   name="iteration"
