@@ -57,6 +57,12 @@ function drawBezierCurve(points, n) {
   return resPoints;
 }
 
+const points = [
+  { x: 7, y: 25 },
+  { x: 2, y: 11 },
+  { x: 22, y: 6 },
+];
+
 function drawBezierCurveBruteForce(points, numPoints) {
   const resPoints = [];
   const n = points.length - 1;
@@ -67,8 +73,7 @@ function drawBezierCurveBruteForce(points, numPoints) {
     let y = 0;
 
     for (let j = 0; j <= n; j++) {
-      const blend =
-        binomialCoefficient(n, j) * Math.pow(1 - t, n - j) * Math.pow(t, j);
+      const blend = binomialCoefficient(n, j) * Math.pow(1 - t, n - j) * Math.pow(t, j);
       x += blend * points[j].x;
       y += blend * points[j].y;
     }
@@ -88,13 +93,10 @@ function binomialCoefficient(n, k) {
   return result;
 }
 
-const points = [
-  { x: 7, y: 25 },
-  { x: 2, y: 11 },
-  { x: 22, y: 6 },
-];
-
-const n = 10;
+const n = 3;
+const numPoints = 8;
 
 const divideAndConquerPoints = drawBezierCurve(points, n);
 console.log("Divide and Conquer Points:", divideAndConquerPoints);;
+const bruteForcePoints = drawBezierCurveBruteForce(points, numPoints);
+console.log("Brute Force Points:", bruteForcePoints);
