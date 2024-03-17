@@ -77,7 +77,7 @@ function binomialCoefficient(n: number, k: number): number {
 export const drawBezierCurveBruteForce = ({ points, iterate }: nBezierProps): Point[] => {
   const resPoints: Point[] = [];
   const n = points.length - 1;
-  const numOfiterate = Math.pow(2, iterate) - 1;
+  const numOfiterate = Math.pow(2, iterate);
 
   for (let i = 0; i <= numOfiterate; i++) {
     const t = i / numOfiterate;
