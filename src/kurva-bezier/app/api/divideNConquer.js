@@ -9,7 +9,11 @@ function drawBezierCurve(points, n) {
   let num = points.length;
 
   for (let i = 0; i < n; i++) {
+
     let temPoints = [];
+    let temPoints2 = [];
+    let k = 1;
+
     for (let j = 0; j < num - 1; j++) {
       const mid = midPoint(
         points[j].x,
@@ -18,42 +22,33 @@ function drawBezierCurve(points, n) {
         points[j + 1].y
       );
       temPoints.push(mid);
-      console.log("temPoints:", temPoints);
-    }
-
-    let num1 = temPoints.length;
-    let temPoints1 = [...temPoints];
-    for (let k = 0; k < num1 - 1; k++) {
-      const mid = midPoint(
-        temPoints[k].x,
-        temPoints[k].y,
-        temPoints[k + 1].x,
-        temPoints[k + 1].y
-      );
-      if (i == n - 1) {
-        resPoints.push(mid);
-      } else {
-        if (k + 1 != 1){
-          l += 2;
+      if (j > 0) {
+        const mid2 = midPoint(
+          temPoints[k - 1].x,
+          temPoints[k - 1].y,
+          temPoints[k].x,
+          temPoints[k].y
+        );
+        if (i < n - 1) {
+          temPoints2.push(temPoints[k - 1]);
+          temPoints2.push(mid2);
+          if (num - 2 == k) {
+            temPoints2.push(temPoints[k]);
+          }
+        } else {
+          resPoints.push(mid2);
         }
-        else{
-          l = 1;
-        }
-        temPoints1.splice(l, 0, mid);
+        k++;
       }
     }
-
-    temPoints1.unshift(points[0]);
-    temPoints1.push(points[points.length - 1]);
-    console.log("temPoints2:", temPoints1);
-    num = temPoints1.length;
-    points = temPoints1;
+    temPoints2.unshift(points[0]);
+    temPoints2.push(points[points.length - 1]);
+    num = temPoints2.length;
+    points = temPoints2;
   }
 
-  // Prepend the first point and append the last point
   resPoints.unshift(points[0]);
   resPoints.push(points[points.length - 1]);
-
   return resPoints;
 }
 
@@ -73,14 +68,14 @@ function drawBezierCurveBruteForce(points, numPoints) {
     let y = 0;
 
     for (let j = 0; j <= n; j++) {
-      const blend = binomialCoefficient(n, j) * Math.pow(1 - t, n - j) * Math.pow(t, j);
+      const blend =
+        binomialCoefficient(n, j) * Math.pow(1 - t, n - j) * Math.pow(t, j);
       x += blend * points[j].x;
       y += blend * points[j].y;
     }
 
     resPoints.push({ x, y });
   }
-
   return resPoints;
 }
 
@@ -92,11 +87,3 @@ function binomialCoefficient(n, k) {
   }
   return result;
 }
-
-const n = 3;
-const numPoints = 8;
-
-const divideAndConquerPoints = drawBezierCurve(points, n);
-console.log("Divide and Conquer Points:", divideAndConquerPoints);;
-const bruteForcePoints = drawBezierCurveBruteForce(points, numPoints);
-console.log("Brute Force Points:", bruteForcePoints);
