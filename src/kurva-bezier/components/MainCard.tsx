@@ -60,6 +60,7 @@ export const MainCard = () => {
     const [method, setMethod] = useState<string>('dnc');
     const [iteration, setIteration] = useState(0);
     const [nowIterate, setNowIterate] = useState<number>(0);
+    const [timeExecution, setTimeExecution] = useState<number>(0);
     const [props, setProps] = useState<LineSvgProps>(
         {
             data: [
@@ -101,6 +102,19 @@ export const MainCard = () => {
             iterate : nowIterate
         }
 
+        let ResultPointss : Point[];
+
+        if (method === 'dnc') {
+          const {ResultPoints, time} = drawBezierCurve(newBezierProps);
+          setTimeExecution(time.toFixed(3));
+          ResultPointss = ResultPoints;
+        } else {
+          const {ResultPoints, time} = drawBezierCurveBruteForce(newBezierProps);
+          setTimeExecution(time.toFixed(3));
+          ResultPointss = ResultPoints;
+        }
+
+
         const datas : LineSvgProps = {
             data: [
                 {
@@ -109,7 +123,7 @@ export const MainCard = () => {
                 },
                 {
                     id: 'bezier',
-                    data: method === 'dnc' ? drawBezierCurve(newBezierProps) : drawBezierCurveBruteForce(newBezierProps)
+                    data: ResultPointss
                 },
 
             ]
@@ -161,24 +175,24 @@ export const MainCard = () => {
 
 
     return (
-      <Card className='w-full h-full flex flex-col items-center justify-start bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-500 overflow-hidden'>
+      <Card className='w-full h-fit flex flex-col items-center justify-start bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-500 overflow-hidden'>
         <CardHeader className='w-[95%] h-[15%]'>
           <CardTitle className='font-extrabold text-4xl text-gray-100'>Tucil 2 STIMA</CardTitle>
           <CardDescription className='text-gray-200 ml-1'>Bezier Curve</CardDescription>
           <hr className='w-full border-2 rounded-full border-muted-foreground opacity-50' />
         </CardHeader>
-        <CardContent className='flex items-center justify-center w-[95%] h-[85%]'>
+        <CardContent className='flex items-center justify-center w-[95%] h-[85%] gap-5'>
 
 
           {/* CANVAS */}
-          <div className='h-full aspect-square flex-col justify-center items-center'>
-            <div className='h-[95%] aspect-square rounded-md bg-[#1d1d1d] flex items-center justify-center'>
+          <div className='w-[45%] aspect-square flex-col justify-center items-center'>
+            <div className='h-full rounded-md bg-[#1d1d1d] flex items-center justify-center'>
                 <MyResponsiveLine {...props} />
             </div>
             <Tooltip>
               <TooltipTrigger className="w-full">
                 <Slider
-                  className='mt-3 w-[95%]' 
+                  className='mt-3 w-full' 
                   min={0} 
                   max={iteration} 
                   defaultValue={[0]}
@@ -326,11 +340,17 @@ export const MainCard = () => {
                 </CardContent>
               </Card>
               <Card className='h-auto w-auto mt-5'>
-                <CardContent className='h-auto w-auto p-5'>
+                <CardContent className='h-auto w-auto p-5 flex items-center justify-center'>
                   <div className='flex flex-row gap-2 h-full w-full justify-center items-center select-none'>
                     <h1>Iterasi ke-</h1>
                     <div className='w-[30px] aspect-square bg-[#1d1d1d] rounded-sm flex justify-center items-center'>
                       <h1 className='text-white text-center font-bold'>{nowIterate}</h1>
+                    </div>
+                  </div>
+                  <div className='flex flex-row gap-2 h-full w-full justify-center items-center select-none'>
+                    <h1>Time Execution: </h1>
+                    <div className='h-[30px] w-fit p-3 bg-[#1d1d1d] rounded-sm flex justify-center items-center'>
+                      <h1 className='text-white text-center font-bold'>{timeExecution} ms</h1>
                     </div>
                   </div>
                 </CardContent>
@@ -456,11 +476,17 @@ export const MainCard = () => {
                 </CardContent>
               </Card>
               <Card className='h-auto w-auto mt-5'>
-                <CardContent className='h-auto w-auto p-5'>
+                <CardContent className='h-auto w-auto p-5 flex items-center justify-center'>
                   <div className='flex flex-row gap-2 h-full w-full justify-center items-center select-none'>
                     <h1>Iterasi ke-</h1>
                     <div className='w-[30px] aspect-square bg-[#1d1d1d] rounded-sm flex justify-center items-center'>
                       <h1 className='text-white text-center font-bold'>{nowIterate}</h1>
+                    </div>
+                  </div>
+                  <div className='flex flex-row gap-2 h-full w-full justify-center items-center select-none'>
+                    <h1>Time Execution: </h1>
+                    <div className='h-[30px] w-fit p-3 bg-[#1d1d1d] rounded-sm flex justify-center items-center'>
+                      <h1 className='text-white text-center font-bold'>{timeExecution} ms</h1>
                     </div>
                   </div>
                 </CardContent>

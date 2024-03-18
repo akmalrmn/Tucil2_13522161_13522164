@@ -14,7 +14,10 @@ function midPoint(x0: number, y0: number, x1: number, y1: number): Point {
   return { x, y };
 }
 
-export const drawBezierCurve = ({ points, iterate }: nBezierProps): Point[] => {
+export const drawBezierCurve = ({ points, iterate }: nBezierProps): {ResultPoints:Point[], time:number} => {
+  console.time("DNC Berzier: ");
+  const start = performance.now();
+
   const resPoints: Point[] = [];
   let num = points.length;
 
@@ -58,7 +61,13 @@ export const drawBezierCurve = ({ points, iterate }: nBezierProps): Point[] => {
 
   resPoints.unshift(points[0]);
   resPoints.push(points[points.length - 1]);
-  return resPoints;
+
+  const end = performance.now();
+  console.timeEnd("DNC Berzier: ");
+  return {
+    ResultPoints: resPoints,
+    time: end - start,
+  };
 };
 
 function binomialCoefficient(n: number, k: number): number {
@@ -73,7 +82,10 @@ function binomialCoefficient(n: number, k: number): number {
 export const drawBezierCurveBruteForce = ({
   points,
   iterate,
-}: nBezierProps): Point[] => {
+}: nBezierProps): {ResultPoints:Point[], time:number} => {
+  console.time("Brute Force Berzier: ");
+  const start = performance.now();
+
   const resPoints: Point[] = [];
   const n = points.length - 1;
   const numOfiterate = Math.pow(2, iterate) * (points.length - 2);
@@ -93,5 +105,11 @@ export const drawBezierCurveBruteForce = ({
     resPoints.push({ x, y });
   }
 
-  return resPoints;
+  const end = performance.now();
+  console.timeEnd("Brute Force Berzier: ");
+
+  return {
+    ResultPoints: resPoints,
+    time: end - start,
+  };
 };
