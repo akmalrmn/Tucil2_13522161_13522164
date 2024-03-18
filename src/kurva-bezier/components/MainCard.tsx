@@ -106,11 +106,11 @@ export const MainCard = () => {
 
         if (method === 'dnc') {
           const {ResultPoints, time} = drawBezierCurve(newBezierProps);
-          setTimeExecution(time.toFixed(3));
+          setTimeExecution(parseFloat(time.toFixed(3)));
           ResultPointss = ResultPoints;
         } else {
           const {ResultPoints, time} = drawBezierCurveBruteForce(newBezierProps);
-          setTimeExecution(time.toFixed(3));
+          setTimeExecution(parseFloat(time.toFixed(3)));
           ResultPointss = ResultPoints;
         }
 
