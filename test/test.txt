@@ -1,0 +1,63 @@
+Note: Semua iterasi dibebaskan pengguna
+
+1. 
+Point 1: (12,54) 
+
+Point 2: (49,43) 
+
+Point 3: (-34,5) 
+
+2.
+Point 1: (120,300) 
+
+Point 2: (-340,230) 
+
+Point 3: (234,450) 
+
+3.
+Point 1: (120,300) 
+
+Point 2: (1000,350) 
+
+Point 3: (234,450) 
+
+4.
+Point 1: (120,300) 
+
+Point 2: (-490,430) 
+
+Point 3: (-340,500) 
+
+5.
+Point 1: (12,53) 
+
+Point 2: (67,-46) 
+
+Point 3: (-67,0) 
+
+6.
+Point 1: (62,12) 
+
+Point 2: (0,62) 
+
+Point 3: (-67,0) 
+
+7.
+Point 1: (62,12) 
+
+Point 2: (0,62) 
+
+Point 3: (-67,0) 
+
+Point 4: (0,0) 
+
+Point 5: (-40,-20) 
+
+8.
+Point 1: (62,12) 
+
+Point 2: (0,62) 
+
+Point 3: (-67,0) 
+
+Point 4: (0,0) 
