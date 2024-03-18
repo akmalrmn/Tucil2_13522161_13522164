@@ -52,12 +52,6 @@ function drawBezierCurve(points, n) {
   return resPoints;
 }
 
-const points = [
-  { x: 7, y: 25 },
-  { x: 2, y: 11 },
-  { x: 22, y: 6 },
-];
-
 function drawBezierCurveBruteForce(points, numPoints) {
   const resPoints = [];
   const n = points.length - 1;
