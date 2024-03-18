@@ -1,6 +1,6 @@
 # Project Name
 > Bezier Curve Program using Divide and Conquer Algorithm
-> Live demo [_here_](https://bezier-curve-tucil2-5y0apb8kl-valentinotriadis-projects.vercel.app/). <!-- If you have the project hosted somewhere, include the link here. -->
+> Live demo [_here_](https://bezier-curve-tucil2.vercel.app/). <!-- If you have the project hosted somewhere, include the link here. -->
 
 
 ## Table of Contents
