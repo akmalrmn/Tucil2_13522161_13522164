@@ -1,17 +1,18 @@
-# Project Name
-> Bezier Curve Program using Divide and Conquer Algorithm
+# Bezier Curve Program using Divide and Conquer Algorithm
 > Live demo [_here_](https://bezier-curve-tucil2.vercel.app/). <!-- If you have the project hosted somewhere, include the link here. -->
 
 
 ## Table of Contents
-* [General Info](#general-information)
-* [Technologies Used](#technologies-used)
-* [Features](#features)
-* [Screenshots](#screenshots)
-* [Usage](#Usage)
-* [Project Status](#project-status)
-* [Room for Improvement](#room-for-improvement)
-* [Acknowledgements](#acknowledgements)
+- [Bezier Curve Program using Divide and Conquer Algorithm](#bezier-curve-program-using-divide-and-conquer-algorithm)
+  - [Table of Contents](#table-of-contents)
+  - [General Information](#general-information)
+  - [Technologies Used](#technologies-used)
+  - [Features](#features)
+  - [Screenshots](#screenshots)
+  - [Usage](#usage)
+  - [Project Status](#project-status)
+  - [Room for Improvement](#room-for-improvement)
+  - [Acknowledgements](#acknowledgements)
 
 
 ## General Information
@@ -56,9 +57,7 @@ Project is: _complete_
 ## Room for Improvement
 Room for improvement:
 - Responsiveness
-
-To do:
-- Display Time Execution Properly
+- Display Time Execution Properly, you can see the real time execution in the console instead
 
 
 ## Acknowledgements
