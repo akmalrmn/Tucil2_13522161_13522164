@@ -97,39 +97,45 @@ export const MainCard = () => {
 
     // Function Declaration
     const firstClickHandler = useCallback(() => {
-        const newBezierProps : nBezierProps = {
-            points: points,
-            iterate : nowIterate
-        }
-
-        let ResultPointss : Point[];
-
-        if (method === 'dnc') {
-          const {ResultPoints, time} = drawBezierCurve(newBezierProps);
-          setTimeExecution(parseFloat(time.toFixed(3)));
-          ResultPointss = ResultPoints;
-        } else {
-          const {ResultPoints, time} = drawBezierCurveBruteForce(newBezierProps);
-          setTimeExecution(parseFloat(time.toFixed(3)));
-          ResultPointss = ResultPoints;
-        }
-
-
-        const datas : LineSvgProps = {
-            data: [
-                {
-                    id: 'point',
-                    data: points
-                },
-                {
-                    id: 'bezier',
-                    data: ResultPointss
-                },
-
-            ]
-        }
-        setProps(datas);
-    }, [method, points, nowIterate])
+      const newBezierProps : nBezierProps = {
+          points: points,
+          iterate : nowIterate
+      }
+  
+      let ResultPointss : Point[];
+      let startTime: number;
+      let endTime: number;
+  
+      if (method === 'dnc') {
+        startTime = performance.now();
+        const {ResultPoints} = drawBezierCurve(newBezierProps);
+        endTime = performance.now();
+        ResultPointss = ResultPoints;
+      } else {
+        startTime = performance.now();
+        const {ResultPoints} = drawBezierCurveBruteForce(newBezierProps);
+        endTime = performance.now();
+        ResultPointss = ResultPoints;
+      }
+  
+      const executionTime = endTime - startTime;
+      setTimeExecution(parseFloat(executionTime.toFixed(3)));
+  
+      const datas : LineSvgProps = {
+          data: [
+              {
+                  id: 'point',
+                  data: points
+              },
+              {
+                  id: 'bezier',
+                  data: ResultPointss
+              },
+  
+          ]
+      }
+      setProps(datas);
+  }, [method, points, nowIterate])
 
     const changeIteration = (iter : number) => {
         setIteration(iter);
